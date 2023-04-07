@@ -5,6 +5,7 @@ import { UUIDUtils } from "@util/uuid-utils";
 import { ArrayField, BooleanField, ModelPropsFromSchema, StringField } from "types/foundry/common/data/fields.mjs";
 import { RuleElementPF2e, RuleElementSchema } from "./";
 import { ItemAlterationField, applyAlterations } from "./alter-item";
+import { ItemMutationField, applyMutations } from "./mutate-item";
 
 const { fields } = foundry.data;
 
@@ -24,6 +25,11 @@ class EphemeralEffectRuleElement extends RuleElementPF2e<EphemeralEffectSchema> 
                 nullable: false,
                 initial: [],
             }),
+            mutations: new fields.ArrayField(new ItemMutationField(), {
+                required: false,
+                nullable: false,
+                initial: [],
+            })
         };
     }
 
@@ -79,6 +85,13 @@ class EphemeralEffectRuleElement extends RuleElementPF2e<EphemeralEffectSchema> 
             }
 
             try {
+                applyMutations(source, this.mutations);
+            } catch (error) {
+                if (error instanceof Error) this.failValidation(error.message);
+                return null;
+            }
+
+            try {
                 applyAlterations(source, this.alterations);
             } catch (error) {
                 if (error instanceof Error) this.failValidation(error.message);
@@ -92,7 +105,7 @@ class EphemeralEffectRuleElement extends RuleElementPF2e<EphemeralEffectSchema> 
 
 interface EphemeralEffectRuleElement
     extends RuleElementPF2e<EphemeralEffectSchema>,
-        ModelPropsFromSchema<EphemeralEffectSchema> {}
+    ModelPropsFromSchema<EphemeralEffectSchema> { }
 
 type EphemeralEffectSchema = RuleElementSchema & {
     affects: StringField<"target" | "origin", "target" | "origin", true, false, true>;
@@ -100,6 +113,7 @@ type EphemeralEffectSchema = RuleElementSchema & {
     uuid: StringField<string, string, true, false, false>;
     adjustName: BooleanField<boolean, boolean, true, false, true>;
     alterations: ArrayField<ItemAlterationField>;
+    mutations: ArrayField<ItemMutationField>;
 };
 
 export { EphemeralEffectRuleElement };
