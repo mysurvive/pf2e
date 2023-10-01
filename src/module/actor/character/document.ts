@@ -915,6 +915,7 @@ class CharacterPF2e<TParent extends TokenDocumentPF2e | null = TokenDocumentPF2e
                     modifier: wornArmor.checkPenalty,
                     type: "untyped",
                     adjustments: extractModifierAdjustments(synthetics.modifierAdjustments, domains, slug),
+                    predicate: [{ not: "action:recall-knowledge" }],
                 });
 
                 // Set requirements for ignoring the check penalty according to skill
