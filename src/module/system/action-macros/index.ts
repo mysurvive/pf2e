@@ -42,6 +42,7 @@ import * as avoidNotice from "./exploration/avoid-notice.ts";
 import * as senseDirection from "./exploration/sense-direction.ts";
 import * as track from "./exploration/track.ts";
 import * as decipherWriting from "./general/decipher-writing.ts";
+import * as recallKnowledge from "./general/recall-knowledge.ts";
 import * as subsist from "./general/subsist.ts";
 import * as coerce from "./intimidation/coerce.ts";
 import * as demoralize from "./intimidation/demoralize.ts";
@@ -116,6 +117,7 @@ export const ActionMacros = {
     // General Skill Actions
     decipherWriting: decipherWriting.legacy,
     subsist: subsist.legacy,
+    recallKnowledge: recallKnowledge.legacy,
 
     // Intimidation
     coerce: coerce.legacy,
@@ -170,6 +172,7 @@ export const SystemActions: Action[] = [
     palmAnObject.action,
     pickALock.action,
     ready,
+    recallKnowledge.action,
     release,
     seek.action,
     senseDirection.action,

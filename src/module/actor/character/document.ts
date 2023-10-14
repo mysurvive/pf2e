@@ -936,7 +936,7 @@ class CharacterPF2e<TParent extends TokenDocumentPF2e | null = TokenDocumentPF2e
                 armorCheckPenalty.predicate.push({ nor: ["attack", "armor:ignore-check-penalty"] });
                 if (["acrobatics", "athletics"].includes(longForm)) {
                     armorCheckPenalty.predicate.push({
-                        nor: ["armor:strength-requirement-met", "armor:trait:flexible"],
+                        nor: ["armor:strength-requirement-met", "armor:trait:flexible", "action:recall-knowledge"],
                     });
                 } else if (longForm === "stealth" && wornArmor.traits.has("noisy")) {
                     armorCheckPenalty.predicate.push({
